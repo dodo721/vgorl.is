@@ -39,21 +39,21 @@ server {
 	server_name _;
 
 	location / {
-		root /home/oem/www/html/;
-		index index.html index.htm index.nginx-debian.html;
+		root /home/oem/www/public/html/;
+		index index.html index.htm;
 		
 		if ($request_uri ~ ^/(.*)\.html(\?|$)) {
 			return 302 /$1;
-    		}
+        }
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
 		try_files $uri $uri.html $uri/ =404;
 	}
 
-	location /img/ {
-		root /home/oem/www/;
+    location ^/(img|style|js)/ {
+        root /home/oem/www/public/;
 		# /img/ is ommitted from root, as it is included in uri
 		try_files $uri $uri/ =405;
-	}
+    }
 
 }
