@@ -60,6 +60,7 @@ server {
     location ~ ^/api(/?)(.*) {
         # Whitelist only local computers
         allow 192.168.0.187;
+        allow 77.97.203.249;
         deny all;
 
         proxy_set_header Host $host;
