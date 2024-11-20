@@ -56,10 +56,11 @@ server {
 		try_files $uri $uri/ =405;
     }
 
-    location ~ /api/? {
+    # Use regex to strip preceeding /api/
+    location ~ ^/api/?(.*) {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
-        proxy_pass http://localhost:3000/;
+        proxy_pass http://localhost:3000/$1;
     }
 
 }
