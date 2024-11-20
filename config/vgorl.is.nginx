@@ -58,6 +58,10 @@ server {
 
     # Use regex to strip preceeding /api/
     location ~ ^/api(/?)(.*) {
+        # Whitelist only local computers
+        allow 192.168.0.187;
+        deny all;
+
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_pass http://127.0.0.1:3000/$2;
