@@ -57,10 +57,10 @@ server {
     }
 
     # Use regex to strip preceeding /api/
-    location ~ ^/api/?(.*) {
+    location ~ ^/api(/?)(.*) {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
-        proxy_pass http://localhost:3000/$1;
+        proxy_pass http://localhost:3000/$2;
     }
 
 }
