@@ -1,2 +1,6 @@
 .vscode/
 node_modules/
+log/
+update.sh
+public/style/*.css
+
