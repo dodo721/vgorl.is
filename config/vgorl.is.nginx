@@ -50,7 +50,7 @@ server {
 		try_files $uri $uri.html $uri/ =404;
 	}
 
-    location ~ ^/(img|style|js)/ {
+    location ~ ^/(img|style|js|woff|woff2)/ {
         root /home/oem/www/public/;
 		# /img/ is ommitted from root, as it is included in uri
 		try_files $uri $uri/ =405;
