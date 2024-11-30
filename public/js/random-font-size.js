@@ -1,6 +1,6 @@
 
 $(() => {
-    $("p,h1,h2,h3,h4,h5").each((i, el) => {
+    $("p.rand,h1.rand,h2.rand,h3.rand,h4.rand,h5.rand").each((i, el) => {
         const text = $(el).html();
         const words = text.split(' ');
         $(el).html("");
