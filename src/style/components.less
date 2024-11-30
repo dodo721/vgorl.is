@@ -30,11 +30,24 @@
     }
 }
 
+
+@keyframes alert-flash {
+    0% {
+        transform: translate(0px,0px);
+        box-shadow: #600000 -5px -5px 0px 0px;
+    }
+    50% {
+        transform: translate(2px, 2px);
+        box-shadow: #600000 -7px -7px 0px 0px;
+    }
+}
+
 .alert {
     background-color: #d30000;
     color: black;
-    box-shadow: #600000 -5px -5px 0px 0px;
     padding: .2rem 3rem;
     font-weight: 600;
     font-family: 'Fira Code';
+    position: relative;
+    animation: alert-flash 2s steps(2, end) infinite;
 }
