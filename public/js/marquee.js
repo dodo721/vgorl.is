@@ -1,6 +1,6 @@
 
 $(() => {
-    $('.marquee').each((idxMarquee, elMarquee) => {
+    $('.marquee').each((i, el) => {
         const innerOne = document.createElement("div");
         const innerTwo = document.createElement("div");
         $(el).append(innerOne);
