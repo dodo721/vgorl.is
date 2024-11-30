@@ -6,7 +6,7 @@ $(() => {
         $(el).html("");
         words.forEach(word => {
             const span = document.createElement("span");
-            span.html(word);
+            $(span).html(word);
             const rand1 = Math.floor(Math.random() * 11);
             const rand2 = Math.floor(Math.random() * 11);
             span.classList.add("font-size-" + rand1);
