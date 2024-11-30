@@ -1,0 +1,15 @@
+@keyframes marquee-slide {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.marquee {
+    overflow-x: hidden;
+    * {
+        animation: marquee-slide 2s linear infinite;
+    }
+}
