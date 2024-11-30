@@ -1,4 +1,4 @@
-@keyframes marquee-slide {
+@keyframes marquee-slide-1 {
     0% {
         transform: translateX(0%);
     }
@@ -7,13 +7,23 @@
     }
 }
 
+@keyframes marquee-slide-2 {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
 .marquee {
     overflow-x: hidden;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    * {
-        animation: marquee-slide 5s linear infinite;
+    position: relative;
+    .innerOne {
+        position: absolute;
+        animation: marquee-slide-1 5s linear infinite;
+    }
+    .innerTwo {
+        animation: marquee-slide-2 5s linear infinite;
     }
 }
