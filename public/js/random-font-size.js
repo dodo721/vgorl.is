@@ -2,6 +2,7 @@
 $(() => {
     $("p.rand,h1.rand,h2.rand,h3.rand,h4.rand,h5.rand").each((i, el) => {
         const text = $(el).html();
+        $(el).attr("title", text);
         const words = text.split(' ');
         $(el).html("");
         words.forEach(word => {
