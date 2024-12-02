@@ -20,14 +20,15 @@ app.get('/', function(req, res) {
 app.get('/:page/:subpage?', function(req, res) {
 
     const pageFiles = {};
+    const parentDir = VIEWS_DIRECTORY + "/pages/";
 
-    fs.readdirSync(VIEWS_DIRECTORY + "/pages/").forEach(file => {
-        const stat = fs.lstatSync(file);
+    fs.readdirSync(parentDir).forEach(file => {
+        const stat = fs.lstatSync(parentDir + file);
         if (stat.isFile() && file.endsWith(".ejs")) {
             const pageName = file.replace(".ejs", "");
             pageData[pageName] = "../pages/" + file
         } else if (stat.isDirectory()) {
-            fs.readdirSync(VIEWS_DIRECTORY+"/pages/"+file+"/").forEach(subfile => {
+            fs.readdirSync(parentDir + file + "/").forEach(subfile => {
                 if (subfile.endsWith(".ejs")) {
                     pageFiles[file + "/" + subfile.replace(".ejs", "")] = "../pages/" + file + "/" + subfile;
                 }
