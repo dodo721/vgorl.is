@@ -26,7 +26,7 @@ app.get('/:page/:subpage?', function(req, res) {
         const stat = fs.lstatSync(parentDir + file);
         if (stat.isFile() && file.endsWith(".ejs")) {
             const pageName = file.replace(".ejs", "");
-            pageData[pageName] = "../pages/" + file
+            pageFiles[pageName] = "../pages/" + file
         } else if (stat.isDirectory()) {
             fs.readdirSync(parentDir + file + "/").forEach(subfile => {
                 if (subfile.endsWith(".ejs")) {
