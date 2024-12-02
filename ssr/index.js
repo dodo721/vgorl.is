@@ -5,7 +5,7 @@ const exec = util.promisify(require('child_process').exec);
 const express = require('express');
 const app = express();
 
-const PORT = 80;
+const PORT = 8080;
 const VIEWS_DIRECTORY = "../views";
 
 app.set('view engine', 'ejs');
