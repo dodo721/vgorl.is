@@ -17,7 +17,7 @@ app.get('/', function(req, res) {
 });
 
 // index page
-app.get('/:page/:subpage', function(req, res) {
+app.get('/:page/:subpage?', function(req, res) {
 
     const pageFiles = {};
 
