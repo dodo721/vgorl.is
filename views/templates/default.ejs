@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            vgorl.is | <%= page %>
+        </title>
+        <link rel="icon" type="image/x-icon" href="/img/tranarchy.ico">
+        <link rel="stylesheet" href="/style/main.css">
+        <script type="text/javascript" src="/js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="/js/marquee.js"></script>
+        <script type="text/javascript" src="/js/random-font-size.js"></script>
+    </head>
+    <body>
+        <div id="main" class="vertical-center">
+            <%- include("../pages/" + page) %>
+        </div>
+        <div id="sidebar" class="vertical-center">
+            <hr class="h"/>
+            <hr class="v mb"/>
+            <img id="tranarchy" src="/img/tranarchy.png"/>
+            <hr class="v mt"/>
+            <hr class="h"/>
+            <p>Test</p>
+        </div>
+    </body>
+</html>

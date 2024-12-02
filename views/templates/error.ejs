@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            vgorl.is
+        </title>
+        <link rel="icon" type="image/x-icon" href="/img/tranarchy.ico">
+        <link rel="stylesheet" href="/style/main.css">
+        <script type="text/javascript" src="/js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="/js/marquee.js"></script>
+        <script type="text/javascript" src="/js/random-font-size.js"></script>
+    </head>
+    <body>
+        <div id="main" class="vertical-center">
+            <div class="marquee">
+                <h1>ERROR ERROR ERROR</h1>
+            </div>
+            <h1><%= httpcode %></h1>
+            <p class="rand">your request could not be completed. sorry!</p>
+            <% if (error) { %>
+                <p class="rand"><code><%= error %></code></p>
+            <% } %>
+        </div>
+    </body>
+</html>
