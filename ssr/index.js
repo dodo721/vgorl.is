@@ -13,34 +13,34 @@ app.set('view engine', 'ejs');
 app.set('views', VIEWS_DIRECTORY)
 
 app.get('/', function(req, res) {
-    res.render('templates/default', {page: '../pages/index'});
+    res.render('templates/default', {page: 'index', title: '| | |'});
 });
 
 // index page
 app.get('/:page/:subpage?', function(req, res) {
 
-    const pageFiles = {};
+    const pages = {};
     const parentDir = VIEWS_DIRECTORY + "/pages/";
 
     fs.readdirSync(parentDir).forEach(file => {
         const stat = fs.lstatSync(parentDir + file);
+        const pageName = file.replace(".ejs", "");
+        pages[pageName] = {subpages: []};
         if (stat.isFile() && file.endsWith(".ejs")) {
-            const pageName = file.replace(".ejs", "");
-            pageFiles[pageName] = "../pages/" + file
+            // TODO: parent page
         } else if (stat.isDirectory()) {
             fs.readdirSync(parentDir + file + "/").forEach(subfile => {
                 if (subfile.endsWith(".ejs")) {
-                    pageFiles[file + "/" + subfile.replace(".ejs", "")] = "../pages/" + file + "/" + subfile;
+                    pages[pageName].subpages.push(file + "/" + subfile.replace(".ejs", ""));
                 }
             });
         }
     });
 
-    const pagePath = req.params.page;
+    let pagePath = req.params.page;
     if (req.params.subpage)
         pagePath += "/" + req.params.subpage;
-    const pageFile = pageFiles[pagePath];
-    if (pageFile) {
+    if (pages.includes(pagePath)) {
         res.render('templates/default', {page: pagePath});
     } else {
         res.render('templates/error', {httpcode:404, error:"that's not a page silly!!! get your URI straight!!"})

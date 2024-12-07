@@ -1,0 +1,1 @@
+lessc ./src/style/main.less ./public/style/main.css
