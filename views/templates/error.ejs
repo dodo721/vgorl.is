@@ -18,7 +18,8 @@
                 <h1 class="alert"><%= httpcode %></h1>
                 <p class="randsiz">your request could not be completed. sorry!</p>
                 <% if (error) { %>
-                    <p><code><%= error %></code></p>
+                    <p><code><%= error.message %></code></p>
+                    <p><code><%= error.stack %></code></p>
                 <% } %>
             </div>
         </div>
