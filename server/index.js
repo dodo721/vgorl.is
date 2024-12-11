@@ -36,6 +36,11 @@ app.get('/:page/:subpage?', function(req, res) {
     }
 });
 
+// api
+app.get('/api/', function(req, res) {
+    
+})
+
 // fallback 404 page
 app.get('*', function(req, res) {
     res.render('templates/error', {httpcode:404, error:"that's not a page silly!!! get your URI straight!!"})
