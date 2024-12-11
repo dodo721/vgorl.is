@@ -2,18 +2,16 @@
 const express = require('express');
 // src modules
 const pager = require('./pager');
-
-// constants
-const PORT = 8080;
-const VIEWS_DIRECTORY = "../views";
+const api = require('./api');
+const Const = require('./constants');
 
 // express setup
 const app = express();
 app.set('view engine', 'ejs');
-app.set('views', VIEWS_DIRECTORY);
+app.set('views', Const.VIEWS_DIRECTORY);
 
 //page setup
-const pageData = pager(VIEWS_DIRECTORY);
+const pageData = pager(Const.VIEWS_DIRECTORY);
 
 // index
 app.get('/', function(req, res) {
@@ -37,9 +35,7 @@ app.get('/:page/:subpage?', function(req, res) {
 });
 
 // api
-app.get('/api/', function(req, res) {
-    
-})
+app.use('/api/', api);
 
 // fallback 404 page
 app.get('*', function(req, res) {
@@ -52,10 +48,10 @@ app.use((err, req, res, next) => {
     if (res.headersSent) {
         return next(err);
     }
-    res.render('templates/error', {httpcode:500, error:err})
+    res.render('templates/error', {httpcode:err.httpcode || 500, error:err})
 });
 
-app.listen(PORT, () => {
-  console.log(`Server side renderer listening on port ${PORT}`);
+app.listen(Const.PORT, () => {
+  console.log(`Server side renderer listening on port ${Const.PORT}`);
 });
 
