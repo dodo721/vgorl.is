@@ -1,0 +1,26 @@
+{
+  "name": "src",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lessc": "lessc ./style/main.less ../public/style/main.cs",
+    "browserify": "browserify ./js/main.js -o ../public/js/bundle.js",
+    "build": "npm run lessc && npm run browserify",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "lessc": {
+      "patterns": ["style/*"],
+      "extensions": [".less"]
+    },
+    "browserify": "js/*.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "npm-watch": "^0.13.0",
+    "randomcolor": "^0.6.2"
+  }
+}

@@ -3,4 +3,4 @@ node_modules/
 log/
 update.sh
 public/style/main.css
-
+public/js/bundle.js

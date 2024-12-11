@@ -1,9 +1,11 @@
+const htmlsplit = require('./htmlsplit');
 
 $(() => {
-    $("p.rand,h1.rand,h2.rand,h3.rand,h4.rand,h5.rand").each((i, el) => {
-        const text = $(el).html();
+    $(".randsiz").each((i, el) => {
+        const text = $(el).html().trim();
         $(el).attr("title", text);
-        const words = text.split(' ');
+        const words = htmlsplit(text);
+        console.log("RANDSIZ SPLIT", words);
         $(el).html("");
         words.forEach(word => {
             const span = document.createElement("span");

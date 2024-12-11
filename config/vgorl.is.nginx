@@ -39,37 +39,25 @@ server {
 	server_name _;
 
 	location / {
-		#root /home/oem/www/public/html/;
-		#index index.html index.htm;
-		
 		if ($request_uri ~ ^/(.*)\.html(\?|$)) {
 			return 302 /$1;
         }
-		# First attempt to serve request as file, then
-		# as directory, then fall back to displaying a 404.
-		#try_files $uri $uri.html $uri/ =404;
 
+		# Forward to server
 		proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_pass http://127.0.0.1:8080;
 	}
 
+	# static file handling
 	location ~ ^/(img|style|js|woff|woff2)/ {
         root /home/oem/www/public/;
-		# /img/ is ommitted from root, as it is included in uri
 		try_files $uri $uri/ =404;
     }
 
-    # Use regex to strip preceeding /api/
-    location ~ ^/api(/?)(.*) {
-        # Whitelist only local computers
-        allow 192.168.0.187;
-        allow 77.97.203.249;
-        deny all;
-
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_pass http://127.0.0.1:3000/$2;
-    }
+	location /robots.txt {
+		root /home/oem/www/public/;
+		try_files $uri =404;
+	}
 
 }

@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>
-            vgorl.is
+            vgorl.is !! <%= httpcode %> !!
         </title>
         <link rel="icon" type="image/x-icon" href="/img/tranarchy.ico">
         <link rel="stylesheet" href="/style/main.css">
@@ -10,15 +10,17 @@
         <script type="text/javascript" src="/js/bundle.js"></script>
     </head>
     <body>
-        <div id="main" class="vertical-center">
-            <div class="marquee">
-                <h1>ERROR ERROR ERROR</h1>
+        <div class="vertical-center">
+            <div id="main" class="vertical-center">
+                <div class="marquee">
+                    <h1>ERROR ERROR ERROR</h1>
+                </div>
+                <h1 class="alert"><%= httpcode %></h1>
+                <p class="randsiz">your request could not be completed. sorry!</p>
+                <% if (error) { %>
+                    <p><code><%= error %></code></p>
+                <% } %>
             </div>
-            <h1><%= httpcode %></h1>
-            <p class="rand">your request could not be completed. sorry!</p>
-            <% if (error) { %>
-                <p class="rand"><code><%= error %></code></p>
-            <% } %>
         </div>
     </body>
 </html>

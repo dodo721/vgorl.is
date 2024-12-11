@@ -2,6 +2,6 @@
     <img id="tranarchy" class="mt" src="/img/tranarchy.png"/>
     <hr class="v mt"/>
     <hr class="h"/>
-    <p>Hi!</p>
-    <%#- pages.map(p => `<p class="rand">${p}</p>`) %>
+    <a class="randsiz randcol mt" href="/">home</a>
+    <%- pages.map(p => `<a class="randsiz randcol mt" href="/${p}">${p}</a>`).join("") %>
 </div>
