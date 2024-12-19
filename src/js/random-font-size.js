@@ -5,7 +5,6 @@ $(() => {
         const text = $(el).html().trim();
         $(el).attr("title", text);
         const words = htmlsplit(text);
-        console.log("RANDSIZ SPLIT", words);
         $(el).html("");
         words.forEach(word => {
             const span = document.createElement("span");

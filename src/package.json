@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lessc": "lessc ./style/main.less ../public/style/main.cs",
+    "lessc": "lessc ./style/main.less ../public/style/main.css",
     "browserify": "browserify ./js/main.js -o ../public/js/bundle.js",
     "build": "npm run lessc && npm run browserify",
     "watch": "npm-watch"

@@ -6,33 +6,40 @@ class Perms {
 
     isValid = true;
     error = null;
+    path = null;
     
     constructor (path) {
         let fileText = null;
+        this.path = path;
         if (!fs.existsSync(path)) {
-            this.isValid = false;
-            this.error = "Not found";
+            this.invalidate(`Path not found`);
             return;
         }
         const stat = fs.statSync(path);
         if (stat.isDirectory()) {
-            const permspath = path + "/" + Const.PERMS_FILENAME;
+            const permspath = path + "/" + Const.RESERVED_FILES.PERMS_TXT;
             if (!fs.existsSync(permspath)) {
-                this.isValid = false;
-                this.error = "Directory has no _perms.txt";
+                this.invalidate(`Directory has no _perms.txt`);
                 return;
             }
             try {
                 fileText = fs.readFileSync(permspath, 'utf-8');
             } catch (e) {
-                this.isValid = false;
-                this.error = "Could not read _perms.txt";
+                this.invalidate(`Could not read _perms.txt`);
                 return;
             }
             this.parseFile(fileText);
+        } else {
+            this.invalidate("Not supported");
+            return;
         }
+        this.isValid = true;
+    }
+
+    invalidate(error) {
         this.isValid = false;
-        this.error = "Not supported";
+        this.error = error;
+        console.error(`Permission check on ${this.path} failed: ${error}`);
     }
 
     permissions = [];

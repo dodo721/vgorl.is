@@ -15,40 +15,34 @@ const pageData = pager(Const.VIEWS_DIRECTORY);
 
 // index
 app.get('/', function(req, res) {
-    const pages = pageData.topLevel();
-    res.render('templates/default', {page: 'index', title: '| | |', pages:pages});
+    let pages = pageData.tree();
+    res.render('templates/default', {page: "index", pages});
 });
 
-// user pages
-app.get('/:page/:subpage?', function(req, res) {
+// api
+app.use('/api', api);
 
+// fallback 404 page
+app.get('*', function(req, res) {
     const pages = pageData.list();
-
-    let pagePath = req.params.page;
-    if (req.params.subpage)
-        pagePath += "/" + req.params.subpage;
-    if (pages[pagePath]) {
-        res.render('templates/default', {page: pagePath, pages:pageData.topLevel()});
+    let page = req.path;
+    if (pages[page]) {
+        res.render('templates/default', {page, pages:pageData.tree()});
     } else {
         res.render('templates/error', {httpcode:404, error:"that's not a page silly!!! get your URI straight!!"})
     }
 });
 
-// api
-app.use('/api/', api);
-
-// fallback 404 page
-app.get('*', function(req, res) {
-    res.render('templates/error', {httpcode:404, error:"that's not a page silly!!! get your URI straight!!"})
-});
-
 // error handler
 app.use((err, req, res, next) => {
     // yield to default handler in case of express error
+    console.error("[ERROR]", new Date().toISOString());
+    console.error(err);
     if (res.headersSent) {
         return next(err);
     }
-    res.render('templates/error', {httpcode:err.httpcode || 500, error:err})
+    const httpcode = err.httpcode || 500;
+    res.status(httpcode).render('templates/error', {httpcode, error:err})
 });
 
 app.listen(Const.PORT, () => {

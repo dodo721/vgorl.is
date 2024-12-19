@@ -1,38 +1,59 @@
 
 const fs = require('fs');
 
+class Page {
+    name = null;
+    filepath = null;
+
+    constructor(name, filepath) {
+        this.name = name;
+        this.filepath = filepath;
+    }
+}
+
 class Pages {
 
     viewsDir;
+    pages = {};
 
     constructor(viewsDir) {
         this.viewsDir = viewsDir;
     }
 
-    list () {
-        const pages = {};
-        const parentDir = this.viewsDir + "/pages/";
-
+    list (subDir="") {
+        const parentDir = this.viewsDir + "/pages/" + subDir;
         fs.readdirSync(parentDir).forEach(file => {
+            const name = file.replace(/\.ejs$/m, "");
             const stat = fs.lstatSync(parentDir + file);
-            const pageName = file.replace(".ejs", "");
-            pages[pageName] = {isPage: false, subpages: []};
+            const pagePath = "/" + subDir + name;
             if (stat.isFile() && file.endsWith(".ejs")) {
-                pages[pageName].isPage = true;
+                this.pages[pagePath] = new Page(name, parentDir + file);
             } else if (stat.isDirectory()) {
-                fs.readdirSync(parentDir + file + "/").forEach(subfile => {
-                    if (subfile.endsWith(".ejs")) {
-                        pages[pageName].subpages.push(file + "/" + subfile.replace(".ejs", ""));
-                    }
-                });
+                this.list(file + "/");
             }
         });
-
-        return pages;
+        return this.pages;
     };
 
-    topLevel () {
-        return Object.keys(this.list()).filter(p => p !== "index");
+    tree () {
+        const tree = {};
+        for (const pagePath in this.pages) {
+            const parts = pagePath.replace(/^\//m, "").split("/");
+            let prevPart = null;
+            parts.forEach((part, i) => {
+                if (prevPart) {
+                    tree[prevPart] = part;
+                } else {
+                    tree[part] = {};
+                    prevPart = part;
+                }
+            });
+        }
+        return tree;
+    }
+
+    getPage (path) {
+        return pages[path];
     }
 }
 

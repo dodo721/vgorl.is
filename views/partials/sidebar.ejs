@@ -3,5 +3,15 @@
     <hr class="v mt"/>
     <hr class="h"/>
     <a class="randsiz randcol mt" href="/">home</a>
-    <%- pages.map(p => `<a class="randsiz randcol mt" href="/${p}">${p}</a>`).join("") %>
+    <%- (function() {
+        const html = "<ul>"
+        const makePageList = (obj, path="/", depth=0) => {
+            for (const page of obj) {
+                html += `<li style="margin-left:${depth * 20}px"><a href="${path + page}"></a></li>`;
+                for (const subpage of page) {
+                    makePageList(path )
+                }
+            }
+        }
+    }()) %>
 </div>

@@ -17,11 +17,14 @@
                 </div>
                 <h1 class="alert"><%= httpcode %></h1>
                 <p class="randsiz">your request could not be completed. sorry!</p>
+                <%= new Date().toISOString() %>
                 <% if (error) { %>
-                    <p><code><%= error.message %></code></p>
-                    <p><code><%= error.stack %></code></p>
+                    <p><code><%= error.message || error %></code></p>
                 <% } %>
+                <a href="/" class="randcol mt">Back to home</a>
             </div>
+            <hr class="mt h"/>
+            <%- include("../partials/footer") %>
         </div>
     </body>
 </html>
