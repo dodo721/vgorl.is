@@ -9,9 +9,10 @@
             for (const page of obj) {
                 html += `<li style="margin-left:${depth * 20}px"><a href="${path + page}"></a></li>`;
                 for (const subpage of page) {
-                    makePageList(path )
+                    makePageList(path + "/" + subpage)
                 }
             }
         }
+        return html;
     }()) %>
 </div>
