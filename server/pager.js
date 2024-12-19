@@ -25,7 +25,7 @@ class Pages {
         const parentDir = this.viewsDir + "/pages/" + subDir;
         fs.readdirSync(parentDir).forEach(file => {
             const name = file.replace(/\.ejs$/m, "");
-            const stat = fs.lstatSync(parentDir + file);
+            const stat = fs.statSync(parentDir + file);
             const pagePath = "/" + subDir + name;
             if (stat.isFile() && file.endsWith(".ejs")) {
                 this.pages[pagePath] = new Page(name, parentDir + file);
