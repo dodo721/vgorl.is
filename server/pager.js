@@ -1,5 +1,6 @@
 
 const fs = require('fs');
+const { setByPath } = require('./util');
 
 class Page {
     name = null;
@@ -36,17 +37,21 @@ class Pages {
     };
 
     tree () {
+        if (!Object.keys(this.pages).length) {
+            this.list();
+        }
         const tree = {};
         for (const pagePath in this.pages) {
             const parts = pagePath.replace(/^\//m, "").split("/");
-            let prevPart = null;
+            let prevParts = [];
             parts.forEach((part, i) => {
-                if (prevPart) {
-                    tree[prevPart] = part;
+                if (prevParts.length) {
+                    setByPath(tree, [...prevParts, part], {});
                 } else {
-                    tree[part] = {};
-                    prevPart = part;
+                    if (!tree[part])
+                        tree[part] = {};
                 }
+                prevParts.push(part)
             });
         }
         return tree;

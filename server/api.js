@@ -7,6 +7,21 @@ const Perms = require('./perms');
 
 const router = express.Router();
 
+const getFileMetadata = (filepath) => {
+    const metapath = filepath.replace(/\/$/m, "") + ".meta.json";
+    try {
+        const metastat = fs.fstatSync(metapath);
+    catch (e) {
+        console.error("ERROR GETTING METADATA", e);
+        return null;
+    }
+    const fileText = fs.readFileSync(metapath, 'utf-8');
+    const lines = fileText.split("\n");
+    for (const line of lines) {
+        const keyval = line.split(":")
+    }
+}
+
 router.get('/ls/*', function(req, res) {
     // Check permission
     const path = Const.PUBLIC_DIRECTORY + req.path.replace("/ls", "");

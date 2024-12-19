@@ -2,17 +2,24 @@
     <img id="tranarchy" class="mt" src="/img/tranarchy.png"/>
     <hr class="v mt"/>
     <hr class="h"/>
-    <a class="randsiz randcol mt" href="/">home</a>
-    <%- (function() {
-        const html = "<ul>"
-        const makePageList = (obj, path="/", depth=0) => {
-            for (const page of obj) {
-                html += `<li style="margin-left:${depth * 20}px"><a href="${path + page}"></a></li>`;
-                for (const subpage of page) {
-                    makePageList(path + "/" + subpage)
+    <ul class="mt">
+        <li class="mb">
+            <a class="randsiz randcol" href="/">home</a>
+        </li>
+        <%- (function() {
+            let html = "";
+            const makePageList = (obj, path="/", depth=0) => {
+                for (const page in obj) {
+                    if (page==="index" && depth===0)
+                        continue;
+                    html += `<li style="margin-left:${depth * 20}px" class="mb"><a href="${path + page}" class="randcol randsiz">/${page}</a></li>`;
+                    for (const subpage in obj[page]) {
+                        makePageList(obj[page], path + page + "/", depth+1);
+                    }
                 }
             }
-        }
-        return html;
-    }()) %>
+            makePageList(pages);
+            return html;
+        }()) %>
+    </ul>
 </div>
