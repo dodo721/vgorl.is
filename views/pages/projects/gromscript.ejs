@@ -1,0 +1,58 @@
+
+<h1><img id="gromlogo" src="/img/gromscript.png" class="pixel"/> GromScript</h1>
+<hr class="h mt"/>
+<h2> Narrative scripting for game writers </h2>
+
+<div class="vertical-center">
+<p>
+	<a href="https://git.vgorl.is/vgorl/vgorl_grom_script">Git</a>
+	|
+	<a href="https://git.vgorl.is/vgorl/vgorl_grom_script/releases">Download</a>
+	|
+	<a href="https://git.vgorl.is/vgorl/vgorl_grom_script/wiki">Wiki</a>	
+</p>
+</div>
+
+<p>
+Many dialogue tools for games are usually focused on visual novel style linear stories,
+or presented as node-based and visual for every conversation.
+GromScript does not try to replace either of these niches, but instead focuses on providing
+a flexible script-based approach to writing branching dialogues, designing branching narratives,
+and making integration between the written text and game logic as seamless as possible.
+</p>
+
+<div class="codeblock">
+<pre>
+<code>
+.Actor Gary
+    FullName = Garry Gray
+    Description = A happy chappy!
+    Friend = false
+
+.Script
+    @Default *Gary
+    Hello there [*Player]! How can I help?
+        I'm looking for work.
+            Ah I see. Boost your wares a bit?
+            [?if *Player is Friend]
+                Yeah I could get you something. Meet me after dark by the armory. [#end]
+            [?else]
+                Sorry, nothing I got for you. Good luck! [#end]
+</code>
+</pre>
+</div>
+
+<p>
+GromScript has been developed in conjunction with multiple writers who are using it to build
+an unnanounced narrative game. The syntax and formatting is originally based on the formatting
+styles these experienced writers used in standard word documents, and has been kept as close
+to the original writer-focused design as possible. At every step feedback has been taken to make
+sure this scripting language is intuitive for *writing* first and foremost, while retaining enough
+flexibility to create complex narrative flows.
+</p>
+
+<p>
+Currently it has been a solo development project for myself, and I am burning money to keep it going
+as much as I possibly can. Help me out and get early access to development builds at my
+<a href="patreon.com/vgorl">Patreon!</a>
+</p>
