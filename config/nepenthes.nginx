@@ -1,0 +1,27 @@
+location /lookhere/ {
+	proxy_pass http://localhost:8052;
+	proxy_set_header X-Prefix '/lookhere';
+	proxy_set_header X-Forwarded-For $remote_addr;
+	proxy_buffering off;
+}
+
+location /helloai/ {
+	proxy_pass http://localhost:8052;
+	proxy_set_header X-Prefix '/helloai';
+	proxy_set_header X-Forwarded-For $remote_addr;
+	proxy_buffering off;
+}
+
+location /data/ {
+	proxy_pass http://localhost:8052;
+	proxy_set_header X-Prefix '/data';
+	proxy_set_header X-Forwarded-For $remote_addr;
+	proxy_buffering off;
+}
+
+location /abc/ {
+	proxy_pass http://localhost:8052;
+	proxy_set_header X-Prefix '/abc';
+	proxy_set_header X-Forwarded-For $remote_addr;
+	proxy_buffering off;
+}

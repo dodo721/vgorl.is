@@ -6,6 +6,15 @@ class DataFunc {
     vars = {};
     funcs = {};
 
+    static get CLEAN_MODE () {
+        return {
+            NONE,
+            BLANK,
+            DELETE,
+            REPLACE
+        }
+    }
+
     constructor () {
 
     }
@@ -35,10 +44,32 @@ class DataFunc {
         }
     }
 
-    populateElement(el, param, value) {
+    populateElement(el, param, value, recursive=true) {
         $.each(el.attributes, (i, attr) => {
             if (attr.value.includes(`$${param}`)) {
                 $(el).attr(attr.name, attr.value.replace(`$${param}`, value));
+            }
+        });
+        if (recursive) {
+            $(el).children().each((i, child) => {
+                this.populateElement(child, param, value, true);
+            });
+        }
+    }
+
+    cleanElement(el, params, recursive=true, cleanMode=DataFunc.CLEAN_MODE.DELETE) {
+        if (cleanMode === DataFunc.CLEAN_MODE.NONE)
+            return;
+        $.each(el.attributes, (i, attr) => {
+            for (const param of params) {
+                if (attr.value.includes(`$${param}`)) {
+                    switch (cleanMode) {
+                        case DataFunc.CLEAN_MODE.BLANK:
+                            $(el).attr(attr.name, attr.value.replace(`$${param}`, value));
+                            break;
+                        
+                    }
+                }
             }
         });
     }
@@ -89,12 +120,16 @@ $(() => {
         } catch (data) {
             throw new Error (`GET request to ${url} failed with status code ${data.status}`);
         }
+        const items = Object.keys(res);
         let selEl = el;
-        res.forEach((item, i) => {
+        items.forEach((item, i) => {
             const prevEl = selEl;
-            if (i !== res.length - 1)
+            if (i !== items.length - 1)
                 selEl = datafunc.cloneElement(selEl);
             datafunc.populateElement(prevEl, "item", item);
+            for (const meta in res[item]) {
+                datafunc.populateElement(prevEl, meta, res[item][meta]);
+            }
         });
     });
 

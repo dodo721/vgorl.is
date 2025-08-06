@@ -8,10 +8,16 @@
         <link rel="stylesheet" href="/style/main.css">
         <script type="text/javascript" src="/js/jquery-3.7.1.min.js"></script>
         <script type="text/javascript" src="/js/bundle.js"></script>
+	<script type="text/javascript">
+		
+	</script>
     </head>
     <body>
         <div class="vertical-center">
             <div id="main" class="vertical-center">
+		<% if (page !== "index") {%>
+		    <h1 class="alert"><code><%= page.toUpperCase() %></code></h1>
+		<% } %>
                 <%- include("../pages/" + page) %>
             </div>
             <hr class="mt h"/>

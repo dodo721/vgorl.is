@@ -4,22 +4,27 @@ const fs = require('fs');
 const util = require('./util');
 const Const = require('./constants');
 const Perms = require('./perms');
+const jquery = require('jquery');
+const { JSDOM } = require("jsdom");
 
 const router = express.Router();
 
 const getFileMetadata = (filepath) => {
     const metapath = filepath.replace(/\/$/m, "") + ".meta.json";
+    // Find the meta file - silent fail if not found (we don't care)
     try {
-        const metastat = fs.fstatSync(metapath);
-    catch (e) {
-        console.error("ERROR GETTING METADATA", e);
-        return null;
+        const metastat = fs.statSync(metapath);
+    } catch (e) {
+        return {};
     }
-    const fileText = fs.readFileSync(metapath, 'utf-8');
-    const lines = fileText.split("\n");
-    for (const line of lines) {
-        const keyval = line.split(":")
+    // Extract meta from the file - throw if this fails
+    let meta;
+    try {
+        meta = JSON.parse(fs.readFileSync(metapath, 'utf-8'));
+    } catch (e) {
+        throw new Error(`Could not read or parse meta for ${filepath} in ${metapath}:\n` + e.message);
     }
+    return meta;
 }
 
 router.get('/ls/*', function(req, res) {
@@ -30,13 +35,48 @@ router.get('/ls/*', function(req, res) {
         throw util.httpError(401, `Fuck off: perms validation failed`);
     }
     // ls files
-    const files = fs.readdirSync(path);
+    let files = fs.readdirSync(path);
     // remove reserved files
-    for (file in Const.RESERVED_FILES) {
-        const idx = files.indexOf(Const.RESERVED_FILES[file]);
-        files.splice(idx, 1);
+    const reserved = Object.values(Const.RESERVED_FILES);
+    files = files.filter(x => !reserved.includes(x));
+    // apply meta
+    const result = {};
+    files.forEach((file, i) => {
+        // filter reserved
+        for (const ext in Const.RESERVED_EXT) {
+            if (file.endsWith(Const.RESERVED_EXT[ext])) {
+                files.splice(i, 1);
+                return;
+            }
+        }
+        const metadata = getFileMetadata(path + "/" + file);
+        result[file] = metadata;
+    });
+    res.json(result);
+});
+
+// Get latest k6bd imgggage for wallpaper
+router.get('/k6bd.jpg', async function (req, res) {
+    // get k6bd html code
+    const web_fetch = await fetch("https://killsixbilliondemons.com/");
+    if (web_fetch.status !== 200) {
+        throw util.httpError(web_fetch.status, "Bad status code from K6BD website");
     }
-    res.json(files);
+    const html = await web_fetch.text();
+    //console.log(html);
+    const { window } = new JSDOM(html);
+    const $ = jquery(window); 
+    const image_url = $('#comic img').attr('src');
+    const img_fetch = await fetch(image_url);
+    if (img_fetch.status !== 200) {
+        throw util.httpError(img_fetch.status, "Bad status code from K6BD image");
+    }
+    const img_bytes = await img_fetch.bytes();
+    res.writeHead(200, {
+        'Content-Type': 'image/jpeg',
+        'Content-Length': img_bytes.length
+    });
+    res.end(Buffer.from(img_bytes, 'binary'));
 });
 
 
