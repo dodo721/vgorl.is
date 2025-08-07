@@ -1,17 +1,45 @@
 // npm modules
 const express = require('express');
+const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
+const passport = require('passport');
 // src modules
 const pager = require('./pager');
 const api = require('./api');
-const Const = require('./constants');
+const auth = require('./auth');
+const hub = require('./hub');
+const constants = require('./constants');
+const secrets = require('./secrets.json');
 
 // express setup
 const app = express();
 app.set('view engine', 'ejs');
-app.set('views', Const.VIEWS_DIRECTORY);
+app.set('views', constants.VIEWS_DIRECTORY);
 
 //page setup
-const pageData = pager(Const.VIEWS_DIRECTORY);
+const pageData = pager(constants.VIEWS_DIRECTORY);
+
+// Authentication session handler
+app.use(session({
+	secret: secrets.session_secret,
+	resave: false,
+	saveUninitialized: false,
+	store: new SQLiteStore({ db: 'sessions.db', dir: './' })
+}));
+
+//app.use(passport.initialize());
+app.use(passport.authenticate('session'));
+
+// Authentication message handler
+app.use(function(req, res, next) {
+	var msgs = req.session.messages || [];
+	res.locals.messages = msgs;
+	req.session.messages = [];
+	next();
+});
+
+
+
 
 // index
 app.get('/', function(req, res) {
@@ -21,6 +49,12 @@ app.get('/', function(req, res) {
 
 // api
 app.use('/api', api);
+
+// auth
+app.use('/auth', auth);
+
+// hub
+app.use('/hub', hub);
 
 // fallback 404 page
 app.get('*', function(req, res) {
@@ -45,7 +79,10 @@ app.use((err, req, res, next) => {
     res.status(httpcode).render('templates/error', {httpcode, error:err})
 });
 
-app.listen(Const.PORT, () => {
-  console.log(`Server side renderer listening on port ${Const.PORT}`);
+
+
+// Initalize server
+app.listen(constants.PORT, () => {
+  console.log(`Server side renderer listening on port ${constants.PORT}`);
 });
 

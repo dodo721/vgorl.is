@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            vgorl.is !! <%= httpcode %> !!
+        </title>
+        <link rel="icon" type="image/x-icon" href="/img/tranarchy.ico">
+        <link rel="stylesheet" href="/style/main.css">
+        <script type="text/javascript" src="/js/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="/js/bundle.js"></script>
+    </head>
+    <body>
+        <div class="vertical-center">
+            <div id="main" class="vertical-center">
+		   <div class="marquee">
+			<h2 class="randsiz"><%= user.id %></h2>
+		   </div>
+		<p class="randsiz">welcome to ur hub!!! do stuff from here :))</p>
+            </div>
+            <hr class="mt h"/>
+            <%- include("../partials/footer") %>
+        </div>
+    </body>
+</html>
+
